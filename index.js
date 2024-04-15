@@ -1,13 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const cors =require("cors")
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const config = require('./dbs/config');
 
 const app = express();
 app.use(express.json());
-
+app.use(cors())
 const database='mongodb+srv://lokesh:lokeshcz@cluster0.dsoakmx.mongodb.net/herobackend?retryWrites=true&w=majority&appName=Cluster0' // Update with your MongoDB URI
 
 // Connect to MongoDB
