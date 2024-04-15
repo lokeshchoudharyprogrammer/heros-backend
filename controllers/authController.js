@@ -4,10 +4,10 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
 const secret= 'supersecretkey'
-
 const register = async (req, res) => {
+  const { email, password } = req.body;
+  
   try {
-    const { email, password } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'Email already exists' });
@@ -16,9 +16,10 @@ const register = async (req, res) => {
     const newUser = new User({ email, password });
     await newUser.save();
 
-    const token = jwt.sign({ userId: newUser._id }, config.secret, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: newUser._id }, secret, { expiresIn: '1h' });
     res.status(201).json({ token });
   } catch (error) {
+    console.log("Registration Error:", error); // Log the error for debugging
     res.status(500).json({ message: 'Internal server error' });
   }
 };
